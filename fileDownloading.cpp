@@ -494,13 +494,13 @@ int main(int argc, char *argv[])
 {
 
 
-     /*
-     if (argc < 10) {
+     
+     if (argc < 12) {
 		cerr << "Usage: " << argv[0] << " <SIM_ROUND> "<< "<E[Ts]> " << "<E[T0]> " << "<E[Tc]> " << "<E[t1]> " << "<E[t2]> "  \
-             << "<CELLULAR_BANDWIDTH> " << "<WIFI_BANDWIDTH> " << "<FILE_SIZE> " << endl;
+             << "<CELLULAR_BANDWIDTH> " << "<WIFI_BANDWIDTH> " <<  "<WIFI_BANDWIDTH_1> "  << "<WIFI_BANDWIDTH_2> " << "<FILE_SIZE> " << endl;
 		return 1;
-	}*/
-    /*
+	}
+    
     int Nsim = atoi(argv[1]);
     double ets = atof(argv[2]);
     double et0 = atof(argv[3]);
@@ -509,10 +509,12 @@ int main(int argc, char *argv[])
     double et2 = atof(argv[6]);
     double b0 = atof(argv[7]) ;// 4G Mbps
     double b1 = atof(argv[8]) ;// WIFI Mbps
-    double file_size = atof(argv[9]); // MB
-    */
+    double r1 = atof(argv[9]) ;// WIFI Mbps
+    double r2 = atof(argv[10]) ;// WIFI Mbps
+    double file_size = atof(argv[11]); // MB
+    
     //cout << "download" <<endl;
-
+/*
     int Nsim = 10000;
     double ets = 180;
     double et0 = 180;
@@ -524,7 +526,7 @@ int main(int argc, char *argv[])
     double r1 = 1 ;// 4G Mbps
     double r2 = 5;// WIFI Mbps
     double file_size = 250; // MB
-
+*/
     WiFiRate w1(b0,b1), w2(b0,b1,r1,r2);
 
     w1.downloadingFile(Nsim,file_size,ets,et0,etC,1);
@@ -548,6 +550,18 @@ int main(int argc, char *argv[])
     cout << setw(5) <<left << "P_Miss" << setw(15)<< right  << w1.getPmiss() << setw(15) << right << w2.getPmiss() <<endl;
     cout << setw(5) <<left << "E[Vo]" << setw(15)<< right  << w1.getAverageVolumeWiFi() << setw(15) << right << w2.getAverageVolumeWiFi()<<endl;
     cout << setw(5) <<left << "E[Vd]" << setw(15)<< right  << w1.getAverageVolume() << setw(15) << right << w2.getAverageVolume() <<endl;
+
+    ofstream outfile;
+    outfile.open("file_download.txt",ios_base::app);
+    string content;
+    content += to_string(Nsim)+ "," + to_string(ets) + "," + to_string(et0)+ "," + to_string(etC) + "," + to_string(et1) + "," + to_string(et2)  + ","+ to_string(b0) \
+            + ","+ to_string(b1) + "," + to_string(r1) + "," +  to_string(r2) + ","+ to_string(file_size) \
+            + "," +  to_string(w1.getPmiss()) + "," +  to_string(w2.getPmiss()) \
+            + "," +  to_string(w1.getAverageVolumeWiFi()) + "," +  to_string(w2.getAverageVolumeWiFi()) \
+            + "," +  to_string(w1.getAverageVolume()) + "," +  to_string(w2.getAverageVolume()) ;
+    outfile << content <<"\n"; 
+    outfile.close();
+    cout << "Results  are written in file_download.txt" <<endl;
 
  /*
     vector<double> ts;
