@@ -1,0 +1,11 @@
+./fileDownloading	10000	60	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	180	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	360	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	540	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	720	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	900	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	1080	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	1260	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	1440	32	128	16	32	5	5	1	5	100
+./fileDownloading	10000	1620	32	128	16	32	5	5	1	5	100
+./fileDownloading	10001	1800	32	128	16	32	5	5	1	5	100
