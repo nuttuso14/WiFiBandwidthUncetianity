@@ -3,13 +3,19 @@ CFLAGS = -g -c
 STANDARD = -std=c++11
 
 
-all: fileDownloading 
+all: fileDownloading mOffloading 
 
 fileDownloading: fileDownloading.o 
 	$(CC) -o $@ $? 
 
 fileDownloading.o: fileDownloading.cpp
 	$(CC) $(STANDARD) $(CFLAGS) -o $@ fileDownloading.cpp 
+
+mOffloading: mOffloading.o 
+	$(CC) -o $@ $? 
+
+mOffloading.o: mOffloading.cpp
+	$(CC) $(STANDARD) $(CFLAGS) -o $@ mOffloading.cpp 
 
 #main:  main.o
 #	$(CC) -o $@ $? 
@@ -47,5 +53,5 @@ fileDownloading.o: fileDownloading.cpp
 #	$(CC) $(CFLAGS) -o $@ random.cc 
 	
 clean:
-	rm *.o *.txt *.exe filedownloading
+	rm *.o *.txt *.exe filedownloading mOffloading
 
