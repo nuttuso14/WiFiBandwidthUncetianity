@@ -87,17 +87,17 @@ class WiFiRate{
     public:
     double r0, rc, r1, r2, co;
 
-    WiFiRate(): WiFiRate(0,0,0){}
+    WiFiRate(): WiFiRate(0,0,0,0){}
 
-    WiFiRate(double r0, double rc): WiFiRate(r0,rc,0){}
+    WiFiRate(double r0, double rc): WiFiRate(r0,rc,r1,r2){}
 
-    WiFiRate(double r0, double rc, double co){
+    WiFiRate(double r0, double rc, double r1,double r2){
         //cout << "Hello comr here" <<endl;
         this->r0 = r0;
         this->rc = rc;
         this->co = co;
-        //this->r1 = r1;
-        //this->r2 = r2;
+        this->r1 = r1;
+        this->r2 = r2;
         //this->r1 = 
     }
     
@@ -107,15 +107,15 @@ class WiFiRate{
     void setRC(double rc){
         this->rc = rc;
     }
-    void setR1(double et1, double et2){
+    void setR1(double r1){
 
-        //this->r1 = r1
-        this->r1 = ((et1+et2)/(et1+(this->co*et2)))*(getRateWiFi());
+        this->r1 = r1;
+       // this->r1 = ((et1+et2)/(et1+(this->co*et2)))*(getRateWiFi());
       
     }
-    void setR2(){
-        //this->r2 = r2;
-        this->r2 = getRateWiFi1()*(this->co);
+    void setR2(double r2){
+        this->r2 = r2;
+        //this->r2 = getRateWiFi1()*(this->co);
     }
 
     double getRateLTE()
@@ -300,8 +300,8 @@ class WiFiRate{
                 break;
             case 2:
             cout << "===== Download by Model 2 =====" <<endl;
-                setR1(et1,et2);
-                setR2();
+                //setR1(et1,et2);
+                //etR2();
                 //cout << getRateWiFi1() <<endl;
                 //cout << getRateWiFi2()<<endl;
                 for(int i=0;i<N_sim;i++)
@@ -562,9 +562,9 @@ int main(int argc, char *argv[])
 
 
      
-     if (argc < 11) {
+     if (argc < 12) {
 		cerr << "Usage: " << argv[0] << " <SIM_ROUND> "<< "<E[Ts]> " << "<E[T0]> " << "<E[Tc]> " << "<E[t1]> " << "<E[t2]> "  \
-             << "<CELLULAR_BANDWIDTH> " << "<WIFI_BANDWIDTH> " <<  " <CO_FACTOR> " << "<FILE_SIZE> " << endl;
+             << "<CELLULAR_BANDWIDTH> " << "<WIFI_BANDWIDTH> " <<  " <WiFi_Rate1> " << " <WiFi_Rate2> " << "<FILE_SIZE> " << endl;
 		return 1;
 	}
     
@@ -576,9 +576,10 @@ int main(int argc, char *argv[])
     double et2 = atof(argv[6]);
     double b0 = atof(argv[7]) ;// 4G Mbps
     double b1 = atof(argv[8]) ;// WIFI Mbps
-    double cofactor = atof(argv[9]) ; // Number
-    //double r2 = atof(argv[10]) ;// WIFI Mbps
-    double file_size = atof(argv[10]); // MB
+    //double cofactor = atof(argv[9]) ; // Number
+    double r1 = atof(argv[9]) ;// WIFI Mbps
+    double r2 = atof(argv[10]) ;// WIFI Mbps
+    double file_size = atof(argv[11]); // MB
     
     //cout << "download" <<endl;
 
@@ -595,7 +596,7 @@ int main(int argc, char *argv[])
     double file_size = 250; // MB
     double cofactor = 1; */
 
-    WiFiRate w1(b0,b1), w2(b0,b1,cofactor);
+    WiFiRate w1(b0,b1), w2(b0,b1,r1,r2);
 
     w1.downloadingFile(Nsim,file_size,ets,et0,etC,1);
     w2.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,2);
