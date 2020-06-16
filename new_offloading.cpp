@@ -159,10 +159,10 @@ class WiFiRate{
     }
 
     void downloadingFile(int N_sim,double file_size,double ets,double et0,double etC,int model){
-        downloadingFile(N_sim,file_size,ets,et0,etC,-1,-1,1);
+        downloadingFile(N_sim,file_size,ets,et0,etC,-1,-1,-1,1);
     }
     void downloadingFile(int N_sim,double file_size,double ets,double et0, double etC,double et1,double et2,int model){
-        downloadingFile(N_sim,file_size,ets,et0,etC,et1,et2,2);
+        downloadingFile(N_sim,file_size,ets,et0,etC,et1,et2,-1,2);
     }
     void downloadingFile(int N_sim,double file_size,double ets,double et0, double etC,double et1,double et2,double et3,int model)
     {
@@ -183,7 +183,7 @@ class WiFiRate{
         double totaldownloadby4G = 0;
         double ats = 0;
         double sum_ts = 0;
-        int debug = 1;
+        int debug = 0;
 
         switch(model){
             case 1:
@@ -570,6 +570,7 @@ class WiFiRate{
                 if(debug)
                 {
                     cout <<"================" << "Ts = " << tsi <<"================" <<endl;
+                    cout << "bit_file_size = " << bit_file_size  <<endl;
                 }
                 do
                 {
@@ -617,6 +618,7 @@ class WiFiRate{
                         if(debug)
                         {
                             cout << " t0:" << tt0 ;
+                            cout << " remaining bit size : " << bit_file_size ;
                         }
 
                     }
@@ -733,6 +735,7 @@ class WiFiRate{
                                 if(debug)
                                 {
                                     cout << " t1:" << tt1 ;
+                                    cout << " remaining bit size : " << bit_file_size ;
                                 }
                                 
 
@@ -804,6 +807,7 @@ class WiFiRate{
                                 if(debug)
                                 {
                                     cout << " t2:" << tt2 ;
+                                    cout << " remaining bit size : " << bit_file_size ;
                                 }
                                 
                                 /* cout << "download :" << download << endl;
@@ -877,16 +881,17 @@ class WiFiRate{
                                 if(debug)
                                 {
                                     cout << " t3:" << tt3 ;
+                                    cout << " remaining bit size : " << bit_file_size ;
                                 }
                             }
 
                             
 
-                        }while(tc>0/*  && bit_file_size>0 */);
+                        }while(tc>0  && bit_file_size>0 );
                     }
                
 
-                }while(tsi>0 /* && bit_file_size>0 */);
+                }while(tsi>0  && bit_file_size>0);
 
                 if(debug)
                 {
@@ -914,13 +919,156 @@ class WiFiRate{
 
     }
 
+    void printReport(int N_sim,double file_size,double ets,double et0, double etC,int model)
+    {
+        printReport(N_sim, file_size, ets, et0,  etC,-1,-1,-1,model);
+    }
+
+    void printReport(int N_sim,double file_size,double ets,double et0, double etC, double et1,double et2,int model)
+    {
+        printReport(N_sim, file_size, ets, et0,  etC,et1, et2,-1,model);
+    }
+
+    void printReport(int N_sim,double file_size,double ets,double et0, double etC,double et1,double et2,double et3,int model)
+    {
+        cout << "============= Report =============" <<endl;
+        cout << "Parameter Settings :" <<endl;
+        cout << "Nsim :" << N_sim <<endl;
+        cout << "E[Ts] :" << ets <<endl;
+        cout << "E[T0] :" << et0 <<endl;
+        cout << "E[Tc] :" << etC <<endl;
+        if(et1!=-1)
+        {
+            cout << "E[t1] :" << et1 <<endl;
+        }
+        if(et2!=-1)
+        {
+            cout << "E[t2] :" << et2 <<endl;
+        }
+
+        if(et3!=-1)
+        {
+            cout << "E[t3] :" << et3 <<endl;
+        }
+        cout << "CELLULAR_BANDWIDTH :" << getRateLTE() << " Mbps " <<endl;
+        cout << "WIFI_BANDWIDTH :" << getRateWiFi() << " Mbps " << endl;
+        if(et1!=-1)
+        {
+            cout << "WIFI_BANDWIDTH r1 :" << getRateWiFi1() << " Mbps " << endl;
+        }
+
+        if(et2!=-1)
+        {
+            cout << "WIFI_BANDWIDTH r2 :" << getRateWiFi2() << " Mbps " << endl;
+        }
+
+        if(et3!=-1)
+        {
+            cout << "WIFI_BANDWIDTH r3 :" << getRateWiFi3() << " Mbps " << endl;
+        }
+    
+        
+        cout << "FILE_SIZE :" << file_size << " MB" <<endl;
+        cout << "============= Result =============" <<endl;
+        string topic =  (model==1)?" Constant Bandwidth Scheme ":"Multiple Bandwidth Scheme";
+        cout <<setw(10)  <<left << "# " <<setw(15)<< topic <<endl;
+        cout << setw(10) <<left << "P_Miss" << setw(15)<< right  << getPmiss() <<endl;
+        cout << setw(10) <<left << "E[Vo]" << setw(15)<< right  << getAverageVolumeWiFi()<<endl;
+        cout << setw(10) <<left << "E[4G]" << setw(15)<< right  << getAverageVolume4G() <<endl;
+        cout << setw(10) <<left << "E[Vd]" << setw(15)<< right  << getAverageVolume() <<endl;
+    }
+    void exportTofile(int N_sim,double file_size,double ets,double et0, double etC,int model)
+    {
+        cout << "model 1 !!!!" <<endl;
+        exportTofile(N_sim, file_size, ets, et0,  etC,-1, -1,-1,model);
+    }
+    void exportTofile(int N_sim,double file_size,double ets,double et0, double etC,double et1,double et2,int model)
+    {
+        cout << "model 2 !!!!" <<endl;
+        exportTofile(N_sim, file_size, ets, et0,  etC,et1, et2,-1,model);
+    }
+
+    void exportTofile(int N_sim,double file_size,double ets,double et0, double etC,double et1,double et2,double et3,int model)
+    {
+        ofstream outfile;
+       // string filename = (model==1)?"result_m1.txt": (model==2)?"result_m2.txt":"result_m3.txt";
+        string filename = "re_mOffload.txt";
+        //cout << "cccc:"<<filename <<endl;
+        outfile.open(filename,ios_base::app);
+        string content;
+
+        content += to_string(N_sim)+ "," + to_string(ets) + "," + to_string(et0)+ "," + to_string(etC) + "," ; 
+        
+        if(et1!=-1)
+        {
+            content  += to_string(et1) + ",";
+        }
+        else
+        {
+            content  +=  ",";
+        }
+
+        if(et2!=-1)
+        {
+             content  += to_string(et2) + ",";
+        }
+        else
+        {
+            content += ",";
+        }
+
+        if(et3!=-1)
+        {
+            content  += to_string(et3) + ",";
+        }
+        else
+        {
+            content += ",";
+        }
+        
+        content += to_string(getRateLTE()) + ","+ to_string(getRateWiFi()) + "," ;
+                
+        if(et1!=-1)
+        {
+            content  += to_string(getRateWiFi1()) + ",";
+        }
+        else
+        {
+            content  +=  ",";
+        }
+
+        if(et2!=-1)
+        {
+             content  += to_string(getRateWiFi2()) + ",";
+        }
+        else
+        {
+            content += ",";
+        }
+
+        if(et3!=-1)
+        {
+            content  += to_string(getRateWiFi3()) + ",";
+        }
+        else
+        {
+            content += ",";
+        }
+                
+        content += to_string(file_size)+ "," + to_string(getPmiss()) + "," +  to_string(getAverageVolumeWiFi()) +  "," +  to_string(getAverageVolume()) ;
+        outfile << content <<"\n"; 
+        outfile.close();
+        cout << "Results  are written in "<< filename <<endl;
+    }
+
+
 };
 
 
 
 int main(int argc, char *argv[]) 
 {
-      int Nsim = 5;
+    /* int Nsim = 10000;
     double ets = 250;
     double et0 = 100;
     double etC = 400;
@@ -932,15 +1080,124 @@ int main(int argc, char *argv[])
     double r1 = 1 ;// 4G Mbps
     double r2 = 5;// WIFI Mbps
     double r3 = 10;// WIFI Mbps
-    double file_size = 250; // MB
-    double cofactor = 1; 
+    double file_size = 100; // MB
+    int model = 3; */
 
      // WiFiRate w1(b0,b1), w2(b0,b1,r1,r2);
-     WiFiRate w3(b0,b1,r1,r2,r3);
+     //WiFiRate w3(b0,b1,r1,r2,r3);
 
+    // simulation
+   //cout << model<<endl;
+
+    int Nsim = 0;
+    double ets = 0;
+    double et0 = 0;
+    double etC = 0;
+    double et1 = 0;
+    double et2 = 0;
+    double et3 = 0;
+    double b0 = 0;// 4G Mbps
+    double b1 = 0;// WIFI Mbps
+    double r1 = 0 ;// 4G Mbps
+    double r2 = 0;// WIFI Mbps
+    double r3 = 0;// WIFI Mbps
+    double file_size = 0; // MB
+    int model = 0;
+
+    if (argc == 9)
+    {
+		Nsim = atoi(argv[1]);
+        ets = atof(argv[2]);
+        et0 = atof(argv[3]);
+        etC = atof(argv[4]);
+        b0 = atof(argv[5]) ;// 4G Mbps
+        b1 = atof(argv[6]) ;// WIFI Mbps
+        file_size = atof(argv[7]); // MB
+        model = atoi(argv[8]);
+	}
+    else if(argc == 13)
+    {
+        Nsim = atoi(argv[1]);
+        ets = atof(argv[2]);
+        et0 = atof(argv[3]);
+        etC = atof(argv[4]);
+        et1 = atof(argv[5]);
+        et2 = atof(argv[6]); 
+        b0 = atof(argv[7]);// 4G Mbps
+        b1 = atof(argv[8]);// WIFI Mbps
+        r1 = atof(argv[9]) ;// WIFI 1 Mbps
+        r2 = atof(argv[10]);// WIFI 2 Mbps       
+        file_size = atof(argv[11]); // MB
+        model = atoi(argv[12]);
+    } 
+    else if(argc==15)
+    {
+        Nsim = atoi(argv[1]);
+        ets = atof(argv[2]);
+        et0 = atof(argv[3]);
+        etC = atof(argv[4]);
+        et1 = atof(argv[5]);
+        et2 = atof(argv[6]); 
+        et3 = atof(argv[7]); 
+        b0 = atof(argv[8]);// 4G Mbps
+        b1 = atof(argv[9]);// WIFI Mbps
+        r1 = atof(argv[10]) ;// WIFI 1 Mbps
+        r2 = atof(argv[11]);// WIFI 2 Mbps    
+        r3 = atof(argv[12]);// WIFI 3 Mbps      
+        file_size = atof(argv[13]); // MB
+        model = atoi(argv[14]);
+    }
+    else
+    {
+       cerr << "Usage: " << argv[0] << " <SIM_ROUND> "<< "<E[Ts]> " << "<E[T0]> " << "<E[Tc]> " << "<E[t1]> " << "<E[t2]> "  \
+             << "<CELLULAR_BANDWIDTH> " << "<WIFI_BANDWIDTH> " <<  " <WiFi_Rate1> " << " <WiFi_Rate2> " << "<FILE_SIZE> " << endl;
+		return 1; 
+    }
+
+
+
+
+    switch(model){
+        case 1:
+        {
+            WiFiRate wi(b0,b1);
+            //cout << "model 1" <<endl;
+            wi.downloadingFile(Nsim,file_size,ets,et0,etC,1);
+            wi.printReport(Nsim,file_size,ets,et0,etC,1);
+            wi.exportTofile(Nsim,file_size,ets,et0,etC,1);
+            
+            break;
+        }
+        case 2:
+        {
+            WiFiRate wi(b0,b1,r1,r2);
+            wi.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,2);
+            wi.printReport(Nsim,file_size,ets,et0,etC,et1,et2,2);
+            wi.exportTofile(Nsim,file_size,ets,et0,etC,et1,et2,2);
+            //cout << "model 2" <<endl;
+            break;
+        }
+            
+        case 3:
+        {
+            WiFiRate wi(b0,b1,r1,r2,r3);
+            wi.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,et3,3);
+            wi.printReport(Nsim,file_size,ets,et0,etC,et1,et2,et3,3);
+            wi.exportTofile(Nsim,file_size,ets,et0,etC,et1,et2,et3,3);
+            //cout << "model 3" <<endl;
+            break;
+        }
+            
+        default:
+        {
+            cout << "test !" <<endl;
+            break;
+        }
+            
+    }
    // w1.downloadingFile(Nsim,file_size,ets,et0,etC,1);
     //w2.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,2);
-    w3.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,et3,3);
+    //w3.downloadingFile(Nsim,file_size,ets,et0,etC,et1,et2,et3,3);
 
     return 0;
 }
