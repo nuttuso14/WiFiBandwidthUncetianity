@@ -70,8 +70,10 @@ set(gca, 'XTick', x_label);
 %legend({'r_2=r_1 (Constant Bandwidth)','r_2=2r_1(Multiple Bandwidth)','r_2=3r_1(Multiple Bandwidth)','r_2=4r_1(Multiple Bandwidth)'},'NumColumns',1);
 %legend({'Constant Bandwidth','Multiple Bandwidth (m=3)'},'NumColumns',1);
 
+legend({'Constant Bandwidth','Multiple Bandwidth(Settings 1)','Multiple Bandwidth(Settings 2)'},'NumColumns',1);
+
 %legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[T_C]'},'NumColumns',1);
-legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2]=E[t_3])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[t_3]=E[T_C]'},'NumColumns',1);
+%legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2]=E[t_3])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[t_3]=E[T_C]'},'NumColumns',1);
 
 %legend({'Constant Bandwidth','Multiple Bandwidth (m=2)','Multiple Bandwidth (m=3)'},'NumColumns',1);
 

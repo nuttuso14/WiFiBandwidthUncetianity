@@ -17,7 +17,7 @@ x_label = [5	10	15	20	25 30 35]
 
 
 %E[V_O]
-y_11 = [85.142072	64.599316	52.637756	44.333036	38.278622	34.055849	30.466198]
+%y_11 = [85.142072	64.599316	52.637756	44.333036	38.278622	34.055849	30.466198]
 %y_12 = [78.367467	60.105476	48.348542	40.617865	35.091551	31.001551	27.726357]
 %y_13 = [70.694778	54.021803	44.32808	37.439199	32.873244	29.500626	26.648732]
 
@@ -52,9 +52,9 @@ hold on
 
 
 %ylabel('P_{miss}')
-ylabel('E[V_0]: MB')
-%ylabel('E[V_D]: MB')
-xlabel('B_2 (Unit: Mbps)')
+%ylabel('E[V_0]: MB')
+ylabel('E[V_D]: MB')
+xlabel('B_1 (Unit: Mbps)')
 
 
 xticklabels({'5',	'10',	'15',	'20',	'25','30', '35'});
@@ -67,8 +67,10 @@ set(gca, 'XTick', x_label);
 %set(gca,'xticklabel',num2str(get(gca,'XTick')','%.4f'))
 %legend({'F=200','F=500','F=1000'},'NumColumns',1);
 
+legend({'Constant Bandwidth','Multiple Bandwidth(Settings 1)','Multiple Bandwidth(Settings 2)'},'NumColumns',1);
+
 %legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[T_C]'},'NumColumns',1);
-legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2]=E[t_3])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[t_3]=E[T_C]'},'NumColumns',1);
+%legend({'Constant Bandwidth','Multiple Bandwidth (E[t_1]=E[t_2]=E[t_3])<E[T_C]','Multiple Bandwidth E[t_1]=E[t_2]=E[t_3]=E[T_C]'},'NumColumns',1);
 
 hold off;
 grid on;
